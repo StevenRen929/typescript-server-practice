@@ -7,9 +7,9 @@ import express, { Express, Request, Response } from 'express'
 const registerController = async (req: Request, res: Response): Promise<void> => {
   try {
     const userData = req.body;
-    //console.log(req)
+  //  console.log(req)
     const result = await authServices.register(userData);
-    res.status(201);
+    res.status(201).json({message:`user ${userData.name} registered successfully `});
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
