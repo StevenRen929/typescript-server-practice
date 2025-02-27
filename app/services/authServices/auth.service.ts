@@ -1,7 +1,11 @@
 import express, { Request, Response } from "express";
 import { User, IUser } from "../../models/User";
 
-const register = async (userData: IUser):  Promise<IUser> => {
+
+
+
+
+const register = async (userData: IUser): Promise<IUser> => {
   try {
     const newUser = new User(userData);
     await newUser.save();
@@ -10,6 +14,10 @@ const register = async (userData: IUser):  Promise<IUser> => {
     throw new Error("fail registration: " + err.message);
   }
 };
+
+
+
+
 const login = async (email: string, password: string): Promise<IUser> => {
   try {
     const user = await User.findByCredential(email, password);
@@ -22,6 +30,6 @@ const login = async (email: string, password: string): Promise<IUser> => {
   }
 };
 
-const authService = { register ,login};
+const authService = { register, login };
 
 export default authService;

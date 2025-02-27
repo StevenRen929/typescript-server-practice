@@ -3,22 +3,8 @@ import authServices from "../../services/authServices/auth.service";
 import express, { Express, Request, Response } from 'express' 
 
 
-// const register = async(req:Request,res:Response)=>{
-//   try {
-//     const userData = req.body;
-//     const result = await authServices.register(userData);
-//     res.send(result);
-//   } catch (e) {
-//     return e;
-//   }
-// }
 
-// const authConroller = {register};
-
-// export default authConroller;
-
-
-const register = async (req: Request, res: Response): Promise<void> => {
+const registerController = async (req: Request, res: Response): Promise<void> => {
   try {
     const userData = req.body;
     //console.log(req)
@@ -29,7 +15,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const login = async (req: Request, res: Response): Promise<void> => {
+const loginController = async (req: Request, res: Response): Promise<void> => {
   try {
     const loginInfo = req.body;
     const result = await authServices.login(loginInfo.email, loginInfo.password);
@@ -41,6 +27,6 @@ const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export default {
-  register,
-  login
+  registerController,
+  loginController
 };
