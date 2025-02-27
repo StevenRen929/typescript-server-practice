@@ -11,7 +11,7 @@ const connectDB = async (): Promise<Connection> => {
 
   try {
     const connection = await mongoose.connect(dbUrl, {
-      serverSelectionTimeoutMS: 30000, // 可选：超时时间
+      serverSelectionTimeoutMS: 30000,
     });
     console.log(`Database connected to ${dbUrl}`);
     return connection.connection;
