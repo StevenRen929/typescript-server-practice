@@ -1,9 +1,10 @@
 
 
+import { promises } from "dns";
 import startServer from "./express";
 import connectDB from "./mongoose";
 
-const init = async () => {
+const init = async () :Promise<void> => {
   try {
     await connectDB();
     startServer(); 
