@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express";
 import { User, IUser } from "../../models/User";
-import jwt from "jsonwebtoken"
-
-
-
+import jwt from "jsonwebtoken";
+import mongoose, { ObjectId } from "mongoose";
 
 const register = async (userData: IUser): Promise<IUser> => {
   try {
@@ -15,14 +13,11 @@ const register = async (userData: IUser): Promise<IUser> => {
   }
 };
 
-
-
-
 const login = async (email: string, password: string): Promise<IUser> => {
   try {
     const user = await User.findByCredential(email, password);
     if (user) {
-      //token have not been stored yet 
+      //token have not been stored yet
       //only throw on Console for testing
       const token = user.generateAuthToken();
       console.log(token);
@@ -34,17 +29,34 @@ const login = async (email: string, password: string): Promise<IUser> => {
   }
 };
 
-
 //userme service enable users with token to access his/her personal info
-
-const userMe = async (accessToken: string): Promise<IUser> => {
+const userMe = async (
+  accessToken: string
+): Promise<{
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  language: string;
+}> => {
   try {
-    const decoded: any = jwt.verify(accessToken, process.env.JWT_SECRET as string);
+    const decoded = jwt.verify(
+      accessToken,
+      process.env.JWT_SECRET as string
+    ) as { id: string; iat: number; exp: number };
     const user = await User.findById(decoded.id);
+
     if (!user) {
       throw new Error("User not found");
     }
-    return user;
+    const userData = {
+      id: user.id.toString(),
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      language: user.language,
+    };
+    return userData;
   } catch (error: any) {
     throw new Error("Failed to fetch user info: " + error.message);
   }

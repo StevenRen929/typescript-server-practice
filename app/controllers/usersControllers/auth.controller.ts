@@ -32,8 +32,8 @@ const userMeController = async (req: Request, res: Response): Promise<void> => {
       res.status(401).json({ error: "Access token required" });
       return;
     }
-    const user = await authServices.userMe(accessToken);
-    res.status(200).json({ user });
+    const userData = await authServices.userMe(accessToken);
+    res.status(200).json({ message: "user_profile:" ,...userData });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
